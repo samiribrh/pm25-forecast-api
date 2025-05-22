@@ -56,4 +56,3 @@ def test_predict_missing_api_key():
         "cos_month": 0.87
     })
     assert response.status_code == 401
-    

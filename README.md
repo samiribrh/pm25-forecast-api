@@ -18,6 +18,7 @@ Air pollution is one of the most significant environmental threats to urban popu
 
 - Develop models for forecasting PM2.5 levels using historical weather data.
 - Expose trained model through a FastAPI REST endpoint.
+- Enhanced the model by including a second version that considers geographic location (`location_code`) for more granular predictions.
 
 ## Data Description
 
@@ -41,6 +42,9 @@ Air pollution is one of the most significant environmental threats to urban popu
 ## Deployment
 
 - 🔗 Live API: [https://dscp-kskv.onrender.com/v1/predict](https://dscp-kskv.onrender.com/v1/predict)
++ 🔗 Live APIs:
++   - /predict/predict — original model (no location)
++   - /predict/predict/geo — new model (with location input)
 - 🔐 Requires header: `x-api-key: your-api-key`
 
 ## Usage
@@ -61,6 +65,8 @@ docker run --env-file .env -p 8000:8000 pm25-api
 
 ### Example Request
 
+#### ➤ Standard Model
+
 ```bash
 curl -X POST https://dscp-kskv.onrender.com/v1/predict \
   -H "Content-Type: application/json" \
@@ -73,6 +79,22 @@ curl -X POST https://dscp-kskv.onrender.com/v1/predict \
         "month": 6
       }'
 ```
+
+#### ➤ Location-Aware Model
+
+```bash
+curl -X POST https://dscp-kskv.onrender.com/v1/predict/geo \
+  -H "Content-Type: application/json" \
+  -H "x-api-key: your-api-key" \
+  -d '{
+        "pm25_lag_1": 8.7,
+        "pm25_lag_2": 8.4,
+        "pm25_lag_3": 8.1,
+        "month": 5,
+        "location_code": 42
+      }'
+```
+
 
 ## Expected Outcomes
 
